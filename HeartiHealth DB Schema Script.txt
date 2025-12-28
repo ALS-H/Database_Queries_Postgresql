@@ -1,0 +1,152 @@
+CREATE TABLE IF NOT EXISTS memberinfo (
+    member_id VARCHAR(45) PRIMARY KEY,
+    username VARCHAR(45),
+    firstname VARCHAR(45),
+    lastname VARCHAR(45),
+    age INT,
+    gender VARCHAR(45),
+    email VARCHAR(45),
+    phonenumber BIGINT
+);
+
+
+
+-- -----------------------------------------------------
+-- Table  `addressinfo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS addressinfo (
+    address_id VARCHAR(45),
+    city VARCHAR(45),
+    state VARCHAR(45),
+    country VARCHAR(45),
+    pincode VARCHAR(45),
+    memberinfo_member_id VARCHAR(45) NOT NULL,
+    PRIMARY KEY (address_id, memberinfo_member_id),
+    CONSTRAINT fk_addressinfo_memberinfo
+        FOREIGN KEY (memberinfo_member_id)
+        REFERENCES memberinfo(member_id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
+
+
+-- -----------------------------------------------------
+-- Table  `cardiodiagnosis`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS cardiodiagnosis (
+    cardio_id VARCHAR(45) PRIMARY KEY,
+    cardioarrestdetected BOOLEAN NOT NULL,
+    date TIMESTAMP NOT NULL,
+    memberinfo_member_id VARCHAR(45) NOT NULL,
+    CONSTRAINT fk_cardiodiagnosis_memberinfo
+        FOREIGN KEY (memberinfo_member_id)
+        REFERENCES memberinfo(member_id)
+);
+
+
+-- -----------------------------------------------------
+-- Table  `bloodtest`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS bloodtest (
+    blood_id VARCHAR(45),
+    date TIMESTAMP,
+    bloodpressure INT,
+    fbs INT,
+    thal INT,
+    serumcholesterol INT,
+    cardiodiagnosis_cardio_id VARCHAR(45) NOT NULL,
+    PRIMARY KEY (blood_id, cardiodiagnosis_cardio_id),
+    CONSTRAINT fk_bloodtest_cardiodiagnosis1
+        FOREIGN KEY (cardiodiagnosis_cardio_id)
+        REFERENCES cardiodiagnosis(cardio_id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
+
+
+-- -----------------------------------------------------
+-- Table  `diseasedetail`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS diseasedetail (
+    disease_id VARCHAR(45),
+    diagnoseddate TIMESTAMP,
+    recovereddate TIMESTAMP,
+    isrecovered BOOLEAN,
+    cardiodiagnosis_cardio_id VARCHAR(45) NOT NULL,
+    PRIMARY KEY (disease_id, cardiodiagnosis_cardio_id),
+    CONSTRAINT fk_dieseasedetail_cardiodiagnosis1
+        FOREIGN KEY (cardiodiagnosis_cardio_id)
+        REFERENCES cardiodiagnosis(cardio_id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
+
+
+-- -----------------------------------------------------
+-- Table  `ecgreport`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS ecgreport (
+    ecg_id VARCHAR(45),
+    date TIMESTAMP,
+    restecg INT,
+    cardiodiagnosis_cardio_id VARCHAR(45) NOT NULL,
+    PRIMARY KEY (ecg_id, cardiodiagnosis_cardio_id),
+    CONSTRAINT fk_ecgreport_cardiodiagnosis1
+        FOREIGN KEY (cardiodiagnosis_cardio_id)
+        REFERENCES cardiodiagnosis(cardio_id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table  `symptom`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS symptom (
+    symptom_id VARCHAR(45),
+    date TIMESTAMP,
+    exang INT,
+    oldpeak FLOAT,
+    cp INT,
+    cardiodiagnosis_cardio_id VARCHAR(45) NOT NULL,
+    PRIMARY KEY (symptom_id, cardiodiagnosis_cardio_id),
+    CONSTRAINT fk_symptom_cardiodiagnosis1
+        FOREIGN KEY (cardiodiagnosis_cardio_id)
+        REFERENCES cardiodiagnosis(cardio_id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table  `wearabledevicedata`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS wearabledevicedata (
+    wearable_device_id VARCHAR(45),
+    thalach INT,
+    slope INT,
+    date TIMESTAMP,
+    cardiodiagnosis_cardio_id VARCHAR(45) NOT NULL,
+    PRIMARY KEY (wearable_device_id, cardiodiagnosis_cardio_id),
+    CONSTRAINT fk_wearabledevicedata_cardiodiagnosis1
+        FOREIGN KEY (cardiodiagnosis_cardio_id)
+        REFERENCES cardiodiagnosis(cardio_id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
+
+
+-- -----------------------------------------------------
+-- Table  `xray`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS xray (
+    xray_id VARCHAR(45),
+    date TIMESTAMP,
+    ca INT,
+    cardiodiagnosis_cardio_id VARCHAR(45) NOT NULL,
+    PRIMARY KEY (xray_id, cardiodiagnosis_cardio_id),
+    CONSTRAINT fk_xray_cardiodiagnosis1
+        FOREIGN KEY (cardiodiagnosis_cardio_id)
+        REFERENCES cardiodiagnosis(cardio_id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+);
+

@@ -13,6 +13,14 @@ WHERE date >= '2019-05-03'
 the top. 
 -------------------------------------------------------
 
+SELECT
+    cardioarrestdetected,
+    COUNT(*) AS occurrence_count
+FROM cardiodiagnosis
+WHERE date::date = '2019-05-25'
+GROUP BY cardioarrestdetected
+ORDER BY occurrence_count DESC;
+
 -------------------------------------------------------
 4.Get all the unique cities. 
 -----------------------------
@@ -453,3 +461,4 @@ ORDER BY state;
 
 --------------------------------------------------------------------------------------------
 # t is the subquery table name (temporary)
+

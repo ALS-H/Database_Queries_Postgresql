@@ -6,8 +6,7 @@ SELECT * FROM cardiodiagnosis;
 2.Get all predictions for the day (a specific day)
 ----------------------------------
 SELECT * FROM cardiodiagnosis
-WHERE date >= '2019-05-03'
-  AND date <  '2019-05-03'::DATE + INTERVAL '1 day';
+WHERE date::date='2019-05-03';
 ---------------------------------------------------------
 3.Get all the predictions for the day and sort them based on the highest probability percentage at 
 the top. 
@@ -461,4 +460,5 @@ ORDER BY state;
 
 --------------------------------------------------------------------------------------------
 # t is the subquery table name (temporary)
+
 
